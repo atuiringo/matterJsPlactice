@@ -1,3 +1,34 @@
+class MyContainer extends Phaser.GameObjects.Container {
+    constructor(scene, x, y, children) {
+        super(scene, x, y, children);
+    }
+}
+
+class Entity {
+    sprites = {};
+    body;
+    bodyRadius = 10;
+    colliders = {};
+
+    move = {
+        x: 0,
+        speed: 7,
+        velocityX: 0
+    };
+    jumpForce = -18;
+    gravityScale = {
+        x: 1,
+        y: 3.5
+    };
+
+    constructor() {
+        console.log("Entity");
+    }
+    move() {
+
+    }
+}
+
 class Example extends Phaser.Scene {
 
     moveX = 0;
@@ -23,31 +54,88 @@ class Example extends Phaser.Scene {
 
     container;
 
+    PlayerContainer;
+
 
     preload() {
         this.load.spritesheet('player', 'test.png', { frameWidth: 220, frameHeight: 300 });
+        this.load.spritesheet('playerRun', 'test2.png', { frameWidth: 254.5, frameHeight: 275 });
     }
 
     create() {
 
-        //create container 
-        this.container = this.add.container(0, 0, center);
+        const Player = new Entity();
+        Player.sprites.idle = this.add.sprite(0, 0, 'player', 0);
+        Player.sprites.idle.anims.create({
+            key: 'idle',
+            frames: Player.sprites.idle.anims.generateFrameNumbers('player', { start: 0, end: 1 }),
+            frameRate: 2,
+            repeat: -1
+        });
 
-        const empty = this.matter.add.image(300, 0);
+        //プレイヤーのスプライト生成
+        let playerSprite = this.add.sprite(0, -15, 'player', 0).setScale(0.4, 0.4);
+        let playerRunSprite = this.add.sprite(0, 0, 'playerRun', 0).setScale(0.4, 0.4);
+
+        //コンテナを作成
+        this.container = this.add.container(0, 0, playerSprite);
+
+        this.container.add(playerRunSprite);
+
+        //テキストを作成
+        var text = this.add.text(0, 0, '0');
+        text.setColor("#fff");
+        text.setOrigin(0.5);
+        text.setFontSize(50);
+        //コンテナに追加
+        this.container.add(text);
+
+        //物理オブジェクトの生成
+        let box = this.matter.bodies.rectangle(0, 0, 100, 100, {
+            chamfer: { radius: this.bodyRadius },
+            friction: 0,
+        });
+
+        //コンテナに物理オブジェクトをつける
+        this.PlayerContainer = (this.matter.add.gameObject(this.container, box));
+
+        //コンテナのポジションを設定
+        this.PlayerContainer.setPosition(300, 100);
+        console.log(this.PlayerContainer);
+
+        // const empty = this.matter.add.image(300, 0);
 
         //MatterWorld
         this.matter.world.setBounds(0, 0, 800, 600);
 
+
+        //create player anims
+        this.PlayerContainer.list[0].anims.create({
+            key: 'idle',
+            frames: this.PlayerContainer.list[0].anims.generateFrameNumbers('player', { start: 0, end: 1 }),
+            frameRate: 2,
+            repeat: -1
+        });
+        this.PlayerContainer.list[1].anims.create({
+            key: 'run',
+            frames: this.PlayerContainer.list[0].anims.generateFrameNumbers('playerRun', { start: 0, end: 3 }),
+            frameRate: 12,
+            repeat: -1
+        });
+
+
+        this.PlayerContainer.list[1].visible = false;
+
         //create sprite , add to world
-        console.log(this.matter);
+        //console.log(this.matter);
         // this.player = this.matter.add.sprite(0, 0, 'player', 0);
 
 
         //collider body
-        this.boxA = this.matter.bodies.rectangle(0, 0, 100, 100, {
-            chamfer: { radius: this.bodyRadius },
-            friction: 0,
-        });
+        // this.boxA = this.matter.bodies.rectangle(0, 0, 100, 100, {
+        //     chamfer: { radius: this.bodyRadius },
+        //     friction: 0,
+        // });
 
         //empty.setExistingBody(this.boxA);
         // this.boxA = this.matter.bodies.rectangle(0, 0, this.player.width * 0.75, this.player.height, {
@@ -56,7 +144,7 @@ class Example extends Phaser.Scene {
         //     friction: 0,
         // });
 
-        this.container.add(empty);
+        //this.container.add(empty);
 
         //this.matter.body.setMass(this.boxA, 60);
 
@@ -83,8 +171,8 @@ class Example extends Phaser.Scene {
         this.matter.world.add(this.ground);
 
         //input
-        // this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        // this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         // this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
         // const keyDown = (e) => {
@@ -98,6 +186,21 @@ class Example extends Phaser.Scene {
     }
 
     update() {
+        if (this.keyA.isDown) {
+            console.log("a");
+            this.PlayerContainer.list[0].visible = false;
+            this.PlayerContainer.list[1].visible = true;
+            this.PlayerContainer.list[1].anims.play('run', true);
+        } else if (this.keyD.isDown) {
+            console.log("d");
+            this.PlayerContainer.list[0].visible = false;
+            this.PlayerContainer.list[1].visible = true;
+            this.PlayerContainer.list[1].anims.play('run', true);
+        } else {
+            this.PlayerContainer.list[1].visible = false;
+            this.PlayerContainer.list[0].visible = true;
+            this.PlayerContainer.list[0].anims.play('idle', true);
+        }
         // this.moveVelocityX = this.moveX * this.moveSpeed;
         // this.player.setVelocityX(this.moveVelocityX);
         // //input
