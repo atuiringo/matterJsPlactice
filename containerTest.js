@@ -29,8 +29,6 @@ class Example extends Phaser.Scene {
   }
 
   create() {
-
-
     //プレイヤーのスプライト生成
     let playerSprite = this.add.sprite(0, 0, "player", 0);
 
@@ -60,8 +58,20 @@ class Example extends Phaser.Scene {
       }
     );
 
+    let attackSensorBody = this.matter.bodies.circle(200, 40, 40, {
+      isSensor: true,
+    });
+
+    const compoundBody = Phaser.Physics.Matter.Matter.Body.create({
+      parts: [box, attackSensorBody],
+      gravityScale: this.playerGravityScale,
+    });
+
     //コンテナに物理オブジェクトをつける
-    this.PlayerContainer = this.matter.add.gameObject(this.container, box);
+    this.PlayerContainer = this.matter.add.gameObject(
+      this.container,
+      compoundBody
+    );
 
     //コンテナのポジションを設定
     this.PlayerContainer.setPosition(300, 100);
@@ -149,7 +159,9 @@ class Example extends Phaser.Scene {
     //input
     this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-    this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    this.keySpace = this.input.keyboard.addKey(
+      Phaser.Input.Keyboard.KeyCodes.SPACE
+    );
 
     const keyDown = (e) => {
       const inputKey = e.code;
@@ -157,9 +169,9 @@ class Example extends Phaser.Scene {
         this.PlayerContainer.setVelocityY(this.jumpForce);
         this.PlayerContainer.list[0].anims.play("jump", true);
       }
-    }
+    };
 
-    this.input.keyboard.on('keydown', keyDown);
+    this.input.keyboard.on("keydown", keyDown);
   }
 
   update() {
@@ -194,7 +206,7 @@ const config = {
       gravity: { y: 1 },
       debug: true,
     },
-  }
+  },
 };
 
 const game = new Phaser.Game(config);
