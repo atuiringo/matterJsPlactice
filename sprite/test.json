@@ -1,0 +1,518 @@
+{
+    "frames": [
+        {
+            "filename": "PlayerDig03",
+            "frame": {
+                "x": 197,
+                "y": 0,
+                "w": 244,
+                "h": 276
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 244,
+                "h": 276
+            },
+            "sourceSize": {
+                "w": 244,
+                "h": 276
+            }
+        },
+        {
+            "filename": "Idle_0",
+            "frame": {
+                "x": 477,
+                "y": 552,
+                "w": 196,
+                "h": 272
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 196,
+                "h": 272
+            },
+            "sourceSize": {
+                "w": 196,
+                "h": 272
+            }
+        },
+        {
+            "filename": "Idle_1",
+            "frame": {
+                "x": 197,
+                "y": 277,
+                "w": 196,
+                "h": 274
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 196,
+                "h": 274
+            },
+            "sourceSize": {
+                "w": 196,
+                "h": 274
+            }
+        },
+        {
+            "filename": "Idle_2",
+            "frame": {
+                "x": 197,
+                "y": 909,
+                "w": 196,
+                "h": 272
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 196,
+                "h": 272
+            },
+            "sourceSize": {
+                "w": 196,
+                "h": 272
+            }
+        },
+        {
+            "filename": "Idle_3",
+            "frame": {
+                "x": 0,
+                "y": 277,
+                "w": 196,
+                "h": 274
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 196,
+                "h": 274
+            },
+            "sourceSize": {
+                "w": 196,
+                "h": 274
+            }
+        },
+        {
+            "filename": "jump_0",
+            "frame": {
+                "x": 477,
+                "y": 1194,
+                "w": 384,
+                "h": 337
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 384,
+                "h": 337
+            },
+            "sourceSize": {
+                "w": 384,
+                "h": 337
+            }
+        },
+        {
+            "filename": "jump_1",
+            "frame": {
+                "x": 1172,
+                "y": 0,
+                "w": 384,
+                "h": 361
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 384,
+                "h": 361
+            },
+            "sourceSize": {
+                "w": 384,
+                "h": 361
+            }
+        },
+        {
+            "filename": "run_0",
+            "frame": {
+                "x": 862,
+                "y": 1194,
+                "w": 262,
+                "h": 267
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 262,
+                "h": 267
+            },
+            "sourceSize": {
+                "w": 262,
+                "h": 267
+            }
+        },
+        {
+            "filename": "run_1",
+            "frame": {
+                "x": 635,
+                "y": 909,
+                "w": 247,
+                "h": 269
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 247,
+                "h": 269
+            },
+            "sourceSize": {
+                "w": 247,
+                "h": 269
+            }
+        },
+        {
+            "filename": "run_2",
+            "frame": {
+                "x": 1172,
+                "y": 700,
+                "w": 262,
+                "h": 275
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 262,
+                "h": 275
+            },
+            "sourceSize": {
+                "w": 262,
+                "h": 275
+            }
+        },
+        {
+            "filename": "run_3",
+            "frame": {
+                "x": 883,
+                "y": 909,
+                "w": 247,
+                "h": 269
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 247,
+                "h": 269
+            },
+            "sourceSize": {
+                "w": 247,
+                "h": 269
+            }
+        },
+        {
+            "filename": "attack2_0",
+            "frame": {
+                "x": 0,
+                "y": 0,
+                "w": 196,
+                "h": 276
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 196,
+                "h": 276
+            },
+            "sourceSize": {
+                "w": 196,
+                "h": 276
+            }
+        },
+        {
+            "filename": "attack2_1",
+            "frame": {
+                "x": 394,
+                "y": 909,
+                "w": 240,
+                "h": 271
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 240,
+                "h": 271
+            },
+            "sourceSize": {
+                "w": 240,
+                "h": 271
+            }
+        },
+        {
+            "filename": "attack2_2",
+            "frame": {
+                "x": 442,
+                "y": 0,
+                "w": 252,
+                "h": 271
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 252,
+                "h": 271
+            },
+            "sourceSize": {
+                "w": 252,
+                "h": 271
+            }
+        },
+        {
+            "filename": "attack2_3",
+            "frame": {
+                "x": 442,
+                "y": 272,
+                "w": 252,
+                "h": 271
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 252,
+                "h": 271
+            },
+            "sourceSize": {
+                "w": 252,
+                "h": 271
+            }
+        },
+        {
+            "filename": "walk_0",
+            "frame": {
+                "x": 695,
+                "y": 638,
+                "w": 262,
+                "h": 267
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 262,
+                "h": 267
+            },
+            "sourceSize": {
+                "w": 262,
+                "h": 267
+            }
+        },
+        {
+            "filename": "damage_0",
+            "frame": {
+                "x": 1172,
+                "y": 976,
+                "w": 274,
+                "h": 278
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 274,
+                "h": 278
+            },
+            "sourceSize": {
+                "w": 274,
+                "h": 278
+            }
+        },
+        {
+            "filename": "damage_1",
+            "frame": {
+                "x": 894,
+                "y": 357,
+                "w": 274,
+                "h": 278
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 274,
+                "h": 278
+            },
+            "sourceSize": {
+                "w": 274,
+                "h": 278
+            }
+        },
+        {
+            "filename": "attack_0",
+            "frame": {
+                "x": 695,
+                "y": 0,
+                "w": 476,
+                "h": 356
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 476,
+                "h": 356
+            },
+            "sourceSize": {
+                "w": 476,
+                "h": 356
+            }
+        },
+        {
+            "filename": "attack_1",
+            "frame": {
+                "x": 0,
+                "y": 1194,
+                "w": 476,
+                "h": 356
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 476,
+                "h": 356
+            },
+            "sourceSize": {
+                "w": 476,
+                "h": 356
+            }
+        },
+        {
+            "filename": "attack_2",
+            "frame": {
+                "x": 0,
+                "y": 552,
+                "w": 476,
+                "h": 356
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 476,
+                "h": 356
+            },
+            "sourceSize": {
+                "w": 476,
+                "h": 356
+            }
+        },
+        {
+            "filename": "die_0",
+            "frame": {
+                "x": 1172,
+                "y": 362,
+                "w": 384,
+                "h": 337
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 384,
+                "h": 337
+            },
+            "sourceSize": {
+                "w": 384,
+                "h": 337
+            }
+        },
+        {
+            "filename": "dig_0",
+            "frame": {
+                "x": 0,
+                "y": 909,
+                "w": 196,
+                "h": 284
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 196,
+                "h": 284
+            },
+            "sourceSize": {
+                "w": 196,
+                "h": 284
+            }
+        },
+        {
+            "filename": "dig_1",
+            "frame": {
+                "x": 695,
+                "y": 357,
+                "w": 198,
+                "h": 280
+            },
+            "rotated": false,
+            "trimmed": false,
+            "spriteSourceSize": {
+                "x": 0,
+                "y": 0,
+                "w": 198,
+                "h": 280
+            },
+            "sourceSize": {
+                "w": 198,
+                "h": 280
+            }
+        }
+    ],
+    "meta": {
+        "app": "https://www.leshylabs.com/apps/sstool/",
+        "version": "Leshy SpriteSheet Tool v0.8.4",
+        "image": "spritesheet.png",
+        "size": {
+            "w": 1556,
+            "h": 1550
+        },
+        "scale": 1
+    }
+}
