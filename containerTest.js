@@ -17,22 +17,37 @@ class Example extends Phaser.Scene {
   keyD;
   keySpace;
 
-  boxA;
   ground;
+  wall;
 
   container;
 
   PlayerContainer;
+
+  isJumping;
+  isGround;
+  jumpCount = 0;
+
+  isAttack = false;
+
+  mainCamera;
 
   preload() {
     this.load.atlas("player", "sprite/test.png", "sprite/test.json");
   }
 
   create() {
-    //プレイヤーのスプライト生成
-    let playerSprite = this.add.sprite(0, 0, "player", 0);
 
-    //コンテナを作成
+    //MatteJSのワールドを生成
+    this.matter.world.setBounds(0, 0, 800, 600);
+
+    //カメラ
+    this.mainCamera = this.cameras.main;
+
+    //プレイヤーのスプライト生成
+    let playerSprite = this.add.sprite(0, 0, "player", 'Idle_0').setOrigin(0.5, 1);
+
+    //コンテナを作成、プレイヤーのスプライトを設定
     this.container = this.add.container(0, 0, playerSprite);
 
     // this.container.add(playerRunSprite);
@@ -46,43 +61,60 @@ class Example extends Phaser.Scene {
     // this.container.add(text);
 
     //物理オブジェクトの生成
-    let box = this.matter.bodies.rectangle(
+    let body = this.matter.bodies.rectangle(
       0,
-      0,
+      -300,
       this.container.list[0].width * 0.3,
       this.container.list[0].height,
       {
         chamfer: { radius: this.bodyRadius },
-        gravityScale: this.playerGravityScale,
-        friction: 0,
       }
     );
 
-    let attackSensorBody = this.matter.bodies.circle(200, 40, 40, {
+    //当たり判定の生成
+    let jumpR = this.matter.bodies.rectangle(-10, -300 + 148, 1, 30, {
+      isSensor: true,
+      angle: 46,
+      label: "jumpR"
+    })
+    let jumpL = this.matter.bodies.rectangle(13, -300 + 148, 1, 30, {
+      isSensor: true,
+      angle: -46,
+      label: "jumpL"
+    })
+
+    let attackSensorBody = this.matter.bodies.circle(200, -300, 40, {
       isSensor: true,
     });
 
-    const compoundBody = Phaser.Physics.Matter.Matter.Body.create({
-      parts: [box, attackSensorBody],
-      gravityScale: this.playerGravityScale,
+    let attackSensorBodyEmpty = this.matter.bodies.circle(-200, 0, 40, {
+      isSensor: true,
     });
+
+    //当たり判定、物理オブジェクトをまとめる
+    const compoundBody = Phaser.Physics.Matter.Matter.Body.create({
+      parts: [body, attackSensorBody, attackSensorBodyEmpty, jumpR, jumpL],
+      gravityScale: this.playerGravityScale,
+      friction: 0,
+    });
+
+    console.log(compoundBody);
 
     //コンテナに物理オブジェクトをつける
     this.PlayerContainer = this.matter.add.gameObject(
       this.container,
       compoundBody
     );
-
-    //コンテナのポジションを設定
+    //コンテナの設定
     this.PlayerContainer.setPosition(300, 100);
     this.PlayerContainer.setScale(0.4);
     this.PlayerContainer.setFixedRotation();
     console.log(this.PlayerContainer);
 
-    //MatterWorld
-    this.matter.world.setBounds(0, 0, 800, 600);
+    //カメラの設定
+    this.mainCamera.startFollow(this.PlayerContainer, true);
 
-    //create player anims
+    //プレイヤーのアニメーションを生成
     this.PlayerContainer.list[0].anims.create({
       key: "idle",
       frames: this.PlayerContainer.list[0].anims.generateFrameNames("player", {
@@ -109,6 +141,20 @@ class Example extends Phaser.Scene {
       }),
       frameRate: 15,
       repeat: 0,
+    });
+    this.PlayerContainer.list[0].anims.create({
+      key: "attack",
+      frames: this.PlayerContainer.list[0].anims.generateFrameNames("player", {
+        prefix: "attack_",
+        end: 2,
+      }),
+      frameRate: 15,
+      repeat: 0,
+    });
+
+    //アニメーションの設定
+    this.PlayerContainer.list[0].on('animationcomplete', (e) => {
+      this.isAttack = false;
     });
 
     // this.PlayerContainer.list[1].visible = false;
@@ -150,47 +196,120 @@ class Example extends Phaser.Scene {
     //     repeat: -1
     // });
 
-    //add world
+    //地面の物理オブジェクトを生成
     this.ground = this.matter.bodies.rectangle(400, 610, 810, 60, {
       isStatic: true,
     });
-    this.matter.world.add(this.ground);
 
-    //input
+    this.wall = this.matter.bodies.rectangle(50, 480, 100, 500, {
+      isStatic: true,
+    });
+
+    //Matterのワールドに追加
+    this.matter.world.add([this.ground, this.wall]);
+
+    //ユーザー入力
     this.keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
     this.keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     this.keySpace = this.input.keyboard.addKey(
       Phaser.Input.Keyboard.KeyCodes.SPACE
     );
+    this.input.on('pointerdown', (pointer) => {
+      if (pointer.leftButtonDown() && !this.isAttack) {
+        this.isAttack = true;
+        this.PlayerContainer.list[0].anims.play("attack");
+      }
+    });
 
     const keyDown = (e) => {
       const inputKey = e.code;
       if (inputKey == "Space") {
+        if (this.isGround) {
+          this.jumpCount = 0;
+        }
+        if (this.jumpCount > 1) {
+          return;
+        } else {
+          this.jumpCount++;
+        }
+
         this.PlayerContainer.setVelocityY(this.jumpForce);
         this.PlayerContainer.list[0].anims.play("jump", true);
       }
+
+      if (inputKey == "ShiftLeft") {
+        this.moveSpeed = 10;
+      }
     };
 
+    const keyup = (e) => {
+      const inputKey = e.code;
+      if (inputKey == "ShiftLeft") {
+        this.moveSpeed = 7;
+      }
+    }
+
     this.input.keyboard.on("keydown", keyDown);
+    this.input.keyboard.on("keyup", keyup);
+
+    //collusion
+    // this.matter.world.on("collisionactive", (event, jumpS, groundC) => {
+    //   this.isGround = true;
+    //   console.log(event);
+    //   // if((bodyA.label == "plane" && bodyB.label == "obstacle") || (bodyB.label == "plane" && bodyA.label == "obstacle")) {
+    //   //     if(plane.anims.getCurrentKey() != "explode") {
+    //   //         plane.play("explode");
+    //   //         plane.once(Phaser.Animations.Events.SPRITE_ANIMATION_COMPLETE, () => {
+    //   //             plane.destroy();
+    //   //         });
+    //   //     }
+    //   // }
+    // });
   }
 
   update() {
+
+    console.log(this.PlayerContainer.body.parts[3]);
+    if (this.matter.collision.collides(this.PlayerContainer.body.parts[3], this.ground) != null || this.matter.collision.collides(this.PlayerContainer.body.parts[4], this.ground)) {
+      this.isGround = true;
+    } else {
+      this.isGround = false;
+    }
+
     this.moveVelocityX = this.moveX * this.moveSpeed;
     this.PlayerContainer.setVelocityX(this.moveVelocityX);
+
+
     if (this.keyA.isDown) {
+      if (this.isAttack) {
+        this.moveX = -0.5;
+        return;
+      };
       this.moveX = -1;
       this.PlayerContainer.scaleX = -0.4;
+      if (!this.isGround) return;
       this.PlayerContainer.list[0].anims.play("run", true);
       // this.PlayerContainer.list[0].visible = false;
       // this.PlayerContainer.list[1].visible = true;
     } else if (this.keyD.isDown) {
+      if (this.isAttack) {
+        this.moveX = 0.5;
+        return;
+      };
       this.moveX = 1;
       this.PlayerContainer.scaleX = 0.4;
+      if (!this.isGround) return;
       this.PlayerContainer.list[0].anims.play("run", true);
     } else {
+
+      if (this.isAttack) {
+        return;
+      };
       this.moveX = 0;
+      if (!this.isGround) return;
       this.PlayerContainer.list[0].anims.play("idle", true);
     }
+
   }
 }
 
