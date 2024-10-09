@@ -12,33 +12,46 @@ class Example extends Phaser.Scene {
 
     create() {
 
-        let playerSprite = this.add.sprite(0, 0, "player", 'Idle_0').setOrigin(0.5, 0);
+        let playerSprite = this.add.sprite(0, -140, "player", 'Idle_0').setOrigin(0.5, 0);
+        const playerSpriteWidth = playerSprite.width;
+        const playerSpriteHeight = playerSprite.height;
+        const playerSpriteCenterX = playerSpriteWidth / 2;
+        const playerSpriteCenterY = playerSpriteHeight / 2;
+
         this.container = this.add.container(0, 0, playerSprite);
-
-
 
         const Bodies = Phaser.Physics.Matter.Matter.Bodies;
 
-        const rect = Bodies.rectangle(0, 0, 98, 98);
-        const circleA = Bodies.circle(-70, 0, 24, { isSensor: true, label: 'left' });
-        const circleB = Bodies.circle(70, 0, 24, { isSensor: true, label: 'right' });
-        const circleC = Bodies.circle(0, -70, 24, { isSensor: true, label: 'top' });
-        const circleD = Bodies.circle(0, 70, 24, { isSensor: true, label: 'bottom' });
+        const rect = Bodies.rectangle(playerSpriteCenterX, playerSpriteCenterY, playerSpriteWidth, playerSpriteHeight);
+        const circleA = Bodies.circle(0, 0, 24, { isSensor: true, label: 'left' });
+        const circleB = Bodies.circle(playerSpriteCenterX - 100, playerSpriteCenterY, 24, { isSensor: true, label: 'right' });
+        const circleC = Bodies.circle(playerSpriteCenterX, playerSpriteCenterY + 100, 24, { isSensor: true, label: 'top' });
+        const circleD = Bodies.circle(playerSpriteCenterX, playerSpriteCenterY - 100, 24, { isSensor: true, label: 'bottom' });
 
-        const compoundBody = Phaser.Physics.Matter.Matter.Body.create({
-            parts: [rect, circleA, circleB, circleC, circleD],
-            inertia: Infinity
-        });
+        // const compoundBody = Phaser.Physics.Matter.Matter.Body.create({
+        //     parts: [rect, circleA, circleB, circleC, circleD],
+        //     inertia: Infinity
+        // });
 
-        console.log(this.container);
+
 
         this.PlayerContainer = this.matter.add.gameObject(
             this.container,
-            compoundBody
+            rect
         );
-        this.PlayerContainer.setPosition(300, 100);
 
-        console.log()
+        let img = this.add.image(0, 0);
+        let test = this.matter.add.gameObject(
+            img,
+            circleA
+        );
+        this.PlayerContainer.add(test);
+
+        console.log(this.PlayerContainer);
+
+        this.PlayerContainer.setPosition(600, 200);
+
+
 
         // this.player = this.matter.add.image(0, 0, 'block');
 

@@ -45,7 +45,7 @@ class Example extends Phaser.Scene {
     this.mainCamera = this.cameras.main;
 
     //プレイヤーのスプライト生成
-    let playerSprite = this.add.sprite(0, 0, "player", 'Idle_0').setOrigin(0.5, 1);
+    let playerSprite = this.add.sprite(0, 60, "player", 'Idle_0').setOrigin(0.5, 1);
 
     //コンテナを作成、プレイヤーのスプライトを設定
     this.container = this.add.container(0, 0, playerSprite);
